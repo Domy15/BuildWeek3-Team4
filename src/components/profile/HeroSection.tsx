@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-
-
 import { Button, Card, Form } from "react-bootstrap";
-import BackgroundImageFetcher from "./BackgroundImageFetcher"; 
+import BackgroundImageFetcher from "./BackgroundImageFetcher";
 import { useEffect, useState } from "react";
 
 const HeroSection: React.FC = () => {
@@ -15,13 +13,17 @@ const HeroSection: React.FC = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzk3NWVlNDE2ZjYzNTAwMTVmZWNiOTciLCJpYXQiOjE3Mzc5NzM0NzYsImV4cCI6MTczOTE4MzA3Nn0.PGJBXtnIkXE6LDZ33f1lboEIywMNz9bqJZVEcvQw_Qc"; 
+        const token =
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzk3NWVlNDE2ZjYzNTAwMTVmZWNiOTciLCJpYXQiOjE3Mzc5NzM0NzYsImV4cCI6MTczOTE4MzA3Nn0.PGJBXtnIkXE6LDZ33f1lboEIywMNz9bqJZVEcvQw_Qc";
 
-        const response = await fetch("https://striveschool-api.herokuapp.com/api/profile/me", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          "https://striveschool-api.herokuapp.com/api/profile/me",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
@@ -31,7 +33,9 @@ const HeroSection: React.FC = () => {
           setError(`Error ${response.status}: ${response.statusText}`);
         }
       } catch (err) {
-        setError("Failed to fetch profile. Please check your network connection or token.");
+        setError(
+          "Failed to fetch profile. Please check your network connection or token."
+        );
       }
     };
 
@@ -52,14 +56,17 @@ const HeroSection: React.FC = () => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch("https://striveschool-api.herokuapp.com/api/profile/", {
-        method: "PUT",
-        headers: {
-          Authorization: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzk3NWVlNDE2ZjYzNTAwMTVmZWNiOTciLCJpYXQiOjE3Mzc5NzM0NzYsImV4cCI6MTczOTE4MzA3Nn0.PGJBXtnIkXE6LDZ33f1lboEIywMNz9bqJZVEcvQw_Qc`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newProfileData),
-      });
+      const response = await fetch(
+        "https://striveschool-api.herokuapp.com/api/profile/",
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzk3NWVlNDE2ZjYzNTAwMTVmZWNiOTciLCJpYXQiOjE3Mzc5NzM0NzYsImV4cCI6MTczOTE4MzA3Nn0.PGJBXtnIkXE6LDZ33f1lboEIywMNz9bqJZVEcvQw_Qc`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newProfileData),
+        }
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -83,7 +90,7 @@ const HeroSection: React.FC = () => {
 
   return (
     <div className="container mt-5" style={{ position: "relative" }}>
-      <BackgroundImageFetcher /> 
+      <BackgroundImageFetcher />
       <div className="row justify-content-start">
         <div className="col-lg-8 col-md-6">
           <div
@@ -104,7 +111,7 @@ const HeroSection: React.FC = () => {
                   style={{
                     width: "150px",
                     height: "150px",
-                    zIndex: 2, 
+                    zIndex: 2,
                   }}
                 />
               </div>
@@ -158,7 +165,9 @@ const HeroSection: React.FC = () => {
                         Aggiungi badge di verifica
                       </Button>
                     </h1>
-                    <p className="mb-1 text-black "><strong>{profile.title}</strong></p>
+                    <p className="mb-1 text-black ">
+                      <strong>{profile.title}</strong>
+                    </p>
                     <p className="mb-2 text-muted">{profile.area}</p>
                   </>
                 )}
@@ -205,5 +214,3 @@ const HeroSection: React.FC = () => {
 };
 
 export default HeroSection;
-
-

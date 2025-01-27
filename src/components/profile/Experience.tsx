@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import SingleExperience from "./SingleExperience";
+import { Button } from "react-bootstrap";
 const TOKEN =
   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzk3NWVlNDE2ZjYzNTAwMTVmZWNiOTciLCJpYXQiOjE3Mzc5NzM0NzYsImV4cCI6MTczOTE4MzA3Nn0.PGJBXtnIkXE6LDZ33f1lboEIywMNz9bqJZVEcvQw_Qc";
 
@@ -54,15 +55,23 @@ const Experience = () => {
   }, []);
 
   return (
-    <div className="rounded">
-      <h4>Esperienza</h4>
+    <div className="mb-3 border rounded-2">
+      <h4 className="pt-3 ps-3">Esperienza</h4>
       {exp &&
         exp.map(
           (exp: Response, i) =>
             i < numExp && <SingleExperience key={exp._id} exp={exp} />
         )}
       {numExp < exp.length && (
-        <button onClick={showMore}>Mostra altre esperienze</button>
+        <Button
+          variant="light"
+          size="sm"
+          className=" show-more-btn"
+          onClick={showMore}
+        >
+          {" "}
+          Mostra tutte le competenze
+        </Button>
       )}
     </div>
   );
