@@ -4,3 +4,11 @@
   box-sizing: border-box;
 }
 
+.imgExp {
+  width: 3em;
+  height: 3em;
+}
+
+.pExp {
+  font-size: 0.9em;
+}
