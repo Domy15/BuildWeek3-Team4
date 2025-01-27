@@ -131,6 +131,7 @@ const Competency = () => {
         },
     ];
 
+
     const [comp, setComp] = useState<null | Competency[]>(null);
 
     const getRandom = (array: Competency[]) => {
