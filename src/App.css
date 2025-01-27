@@ -4,3 +4,6 @@
   box-sizing: border-box;
 }
 
+  .navbar-collapse{flex-grow: 0;}
+
+ 
