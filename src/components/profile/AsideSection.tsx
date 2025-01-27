@@ -1,48 +1,60 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { user } from "../../types/user";
+import { ProfilesApi } from "../../redux/action";
+import { useDispatch, useSelector } from "react-redux";
+
+interface State {
+  user: user | undefined;
+  friends: user[] | []
+}
+
 
 const AsideSection = () => {
-  const [users, setUser] = useState<user[] | []>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
+  const users = useSelector((state: State) => state.friends)
+  const dispatch= useDispatch()
+  // const [users, setUser] = useState<user[] | []>([]);
+  // const [loading, setLoading] = useState<boolean>(true);
+  // const [error, setError] = useState<string>("");
   const url = "https://striveschool-api.herokuapp.com/api/profile/";
   const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzk3NWVlNDE2ZjYzNTAwMTVmZWNiOTciLCJpYXQiOjE3Mzc5NzM0NzYsImV4cCI6MTczOTE4MzA3Nn0.PGJBXtnIkXE6LDZ33f1lboEIywMNz9bqJZVEcvQw_Qc";
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzk3NWVlNDE2ZjYzNTAwMTVmZWNiOTciLCJpYXQiOjE3Mzc5NzM0NzYsImV4cCI6MTczOTE4MzA3Nn0.PGJBXtnIkXE6LDZ33f1lboEIywMNz9bqJZVEcvQw_Qc";
+
   const randomProfiles = (pippo: user[]) => {
     const randomIndex: user[] = [...pippo]
       .sort(() => Math.random() - 0.5)
       .slice(0, 4);
     return randomIndex;
   };
-  const getUser = async () => {
-    try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        setUser(randomProfiles(data));
-      } else {
-        throw new Error("errore nel recupero dei dati");
-      }
-    } catch (Error) {
-      console.log("error", Error);
-      setError("Errore");
-    }
-    setLoading(false);
-  };
+
+  // const getUser = async () => {
+  //   try {
+  //     const response = await fetch(url, {
+  //       method: "GET",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       setUser(randomProfiles(data));
+  //     } else {
+  //       throw new Error("errore nel recupero dei dati");
+  //     }
+  //   } catch (Error) {
+  //     console.log("error", Error);
+  //     setError("Errore");
+  //   }
+  //   setLoading(false);
+  // };
 
   useEffect(() => {
-    getUser();
+    dispatch(ProfilesApi(url, token,randomProfiles));
   }, []);
 
-  if (loading) return <p>Caricamento...</p>;
-  if (error) return <p>Caricamento non andato a buon fine</p>;
+  // if (loading) return <p>Caricamento...</p>;
+  // if (error) return <p>Caricamento non andato a buon fine</p>;
 
   return (
     <div>
