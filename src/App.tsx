@@ -1,14 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap-icons/font/bootstrap-icons.css"
 import './App.css'
-import LinkedinNavbar from "./components/navbar/LinkedinNavbar"
+import './style.css'
 
 
 function App() {
 
   return (
     <>
-<LinkedinNavbar/>
       </>
   )
 }
