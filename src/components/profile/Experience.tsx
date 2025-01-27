@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import SingleExperience from "./SingleExperience";
-const TOKEN = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzk3NWVlNDE2ZjYzNTAwMTVmZWNiOTciLCJpYXQiOjE3Mzc5NzM0NzYsImV4cCI6MTczOTE4MzA3Nn0.PGJBXtnIkXE6LDZ33f1lboEIywMNz9bqJZVEcvQw_Qc";
+import { Button } from "react-bootstrap";
+const TOKEN =
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzk3NWVlNDE2ZjYzNTAwMTVmZWNiOTciLCJpYXQiOjE3Mzc5NzM0NzYsImV4cCI6MTczOTE4MzA3Nn0.PGJBXtnIkXE6LDZ33f1lboEIywMNz9bqJZVEcvQw_Qc";
 
 interface Response {
   role: string;
@@ -36,7 +38,6 @@ const Experience = () => {
         const data = await response.json();
         setExp(data);
         console.log(randomNumber);
-        
       } else {
         throw new Error("errore");
       }
@@ -46,7 +47,7 @@ const Experience = () => {
   };
 
   const showMore = () => {
-      setNumExp(exp.length);
+    setNumExp(exp.length);
   };
 
   useEffect(() => {
@@ -54,11 +55,23 @@ const Experience = () => {
   }, []);
 
   return (
-    <div className="rounded">
-      <h2>Esperienza</h2>
-      {exp && exp.map((exp: Response, i) => i < numExp && <SingleExperience key={exp._id} exp={exp} />)}
-      {numExp < exp.length  && (
-        <button onClick={showMore}>Mostra altre esperienze</button>
+    <div className="mb-3 border rounded-2">
+      <h4 className="pt-3 ps-3">Esperienza</h4>
+      {exp &&
+        exp.map(
+          (exp: Response, i) =>
+            i < numExp && <SingleExperience key={exp._id} exp={exp} />
+        )}
+      {numExp < exp.length && (
+        <Button
+          variant="light"
+          size="sm"
+          className=" show-more-btn"
+          onClick={showMore}
+        >
+          {" "}
+          Mostra tutte le competenze
+        </Button>
       )}
     </div>
   );
