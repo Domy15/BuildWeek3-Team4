@@ -1,12 +1,20 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
 import { user } from "../../types/user";
+
 const AsideSection = () => {
-  const [user, setUser] = useState<user[]>([]);
+  const [users, setUser] = useState<user[] | []>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const url = "https://striveschool-api.herokuapp.com/api/profile/";
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzk3NWVlNDE2ZjYzNTAwMTVmZWNiOTciLCJpYXQiOjE3Mzc5NzM0NzYsImV4cCI6MTczOTE4MzA3Nn0.PGJBXtnIkXE6LDZ33f1lboEIywMNz9bqJZVEcvQw_Qc";
+  const randomProfiles = (pippo: user[]) => {
+    const randomIndex: user[] = [...pippo]
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 7);
+    return randomIndex;
+  };
   const getUser = async () => {
     try {
       const response = await fetch(url, {
@@ -18,14 +26,13 @@ const AsideSection = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        setUser(data.results);
-        //console.log(data);
+        setUser(randomProfiles(data));
       } else {
         throw new Error("errore nel recupero dei dati");
       }
     } catch (Error) {
       console.log("error", Error);
-      setError("Errore sconosciuto");
+      setError("Errore");
     }
     setLoading(false);
   };
@@ -35,8 +42,7 @@ const AsideSection = () => {
   }, []);
 
   if (loading) return <p>Caricamento...</p>;
-  if (error)
-    return <p style={{ color: "red" }}>Caricamento non andato a buon fine</p>;
+  if (error) return <p>Caricamento non andato a buon fine</p>;
 
   return (
     <div>
@@ -55,26 +61,35 @@ const AsideSection = () => {
                 <h4>Altri profili per te</h4>
                 <hr />
               </div>
-              <div className="d-flex p-3 mt-3 shadow rounded bg-trasparent">
-                <div>
-                  <img
-                    src="https://storage.ecodibergamo.it/media/photologue/2014/9/14/photos/caso-puppo-ci-sono-novita-sequestro-persona-inchiesta-chiusa_56133212-3b7c-11e4-b7eb-5915e62dcca4.jpg"
-                    alt="imageProfile"
-                    className="profileImageAside rounded-circle mx-3 align-self-start"
-                  />
-                </div>
-                <div className="infoAside overflow-hidden">
-                  <p className="h5 mb-1">Elena La Marca</p>
-                  <p className="descriptionAside text-muted mb-2">
-                    Specialista in comunicazione e marketing per il mercato
-                    internazionale
-                  </p>
-                  <button className="followBtn followBtn btn border-1 border-black btn-sm d-flex align-items-center">
-                    <i className="bi bi-person-fill-add followIcon me-1"></i>
-                    Segui
-                  </button>
-                </div>
-              </div>
+
+              {users &&
+                users.map((u) => {
+                  return (
+                    <div
+                      key={u._id}
+                      className="d-flex p-3 mt-3 shadow rounded bg-trasparent"
+                    >
+                      <div>
+                        <img
+                          src={u.image}
+                          alt="imageProfile"
+                          className="profileImageAside rounded-circle mx-3 align-self-start"
+                        />
+                      </div>
+                      <div className="infoAside overflow-hidden">
+                        <p className="h5 mb-1">{`${u.name} ${u.surname}`}</p>
+                        <p className="descriptionAside text-muted mb-2">
+                          {u.title}
+                        </p>
+                        <button className="followBtn followBtn btn border-1 border-black btn-sm d-flex align-items-center">
+                          <i className="bi bi-person-fill-add followIcon me-1"></i>
+                          Segui
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+
               <div className="mt-3">
                 <h4>Aziende che potresti conoscere</h4>
                 <hr />
