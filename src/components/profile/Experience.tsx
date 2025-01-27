@@ -37,7 +37,6 @@ const Experience = () => {
       if (response.ok) {
         const data = await response.json();
         setExp(data);
-        console.log(randomNumber);
       } else {
         throw new Error("errore");
       }
