@@ -1,84 +1,49 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button, Card, Form } from "react-bootstrap";
-import BackgroundImageFetcher from "./BackgroundImageFetcher";
+import { Button, Card } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { user } from "../../types/user";
 
-const HeroSection: React.FC = () => {
-  const [profile, setProfile] = useState<any>(null);
+const HeroSection = () => {
+
+  interface State {
+    user: user | undefined;
+  }
+
+  const profile = useSelector((state: State) => (state.user));
   const [error, setError] = useState<string | null>(null);
-  const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [newProfileData, setNewProfileData] = useState<any>(profile);
+  const dispatch = useDispatch()
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const token =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzk3NWVlNDE2ZjYzNTAwMTVmZWNiOTciLCJpYXQiOjE3Mzc5NzM0NzYsImV4cCI6MTczOTE4MzA3Nn0.PGJBXtnIkXE6LDZ33f1lboEIywMNz9bqJZVEcvQw_Qc";
-
-        const response = await fetch(
-          "https://striveschool-api.herokuapp.com/api/profile/me",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setProfile(data);
-          setError(null);
-        } else {
-          setError(`Error ${response.status}: ${response.statusText}`);
-        }
-      } catch (err) {
-        setError(
-          "Failed to fetch profile. Please check your network connection or token."
-        );
-      }
-    };
-
-    fetchProfile();
-  }, []);
-
-  const handleEdit = () => {
-    setIsEditing(true);
-    setNewProfileData(profile);
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewProfileData({
-      ...newProfileData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSave = async () => {
+  const fetchProfile = async () => {
     try {
+      const token =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzk3NWVlNDE2ZjYzNTAwMTVmZWNiOTciLCJpYXQiOjE3Mzc5NzM0NzYsImV4cCI6MTczOTE4MzA3Nn0.PGJBXtnIkXE6LDZ33f1lboEIywMNz9bqJZVEcvQw_Qc";
+
       const response = await fetch(
-        "https://striveschool-api.herokuapp.com/api/profile/",
+        "https://striveschool-api.herokuapp.com/api/profile/me",
         {
-          method: "PUT",
           headers: {
-            Authorization: `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2Nzk3NWVlNDE2ZjYzNTAwMTVmZWNiOTciLCJpYXQiOjE3Mzc5NzM0NzYsImV4cCI6MTczOTE4MzA3Nn0.PGJBXtnIkXE6LDZ33f1lboEIywMNz9bqJZVEcvQw_Qc`,
-            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify(newProfileData),
         }
       );
-
       if (response.ok) {
         const data = await response.json();
-        setProfile(data);
-        setIsEditing(false);
+        dispatch({
+          type: 'PROFILE',
+          payload: data,
+        })
+        setError(null);
       } else {
         setError(`Error ${response.status}: ${response.statusText}`);
       }
     } catch (err) {
-      setError("Failed to save profile changes.");
+      console.log(err);
     }
   };
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
 
   if (error) {
     return <div className="text-danger text-center mt-4">{error}</div>;
@@ -90,7 +55,7 @@ const HeroSection: React.FC = () => {
 
   return (
     <div className="container mt-5" style={{ position: "relative" }}>
-      <BackgroundImageFetcher />
+
       <div className="row justify-content-start">
         <div className="col-lg-8 col-md-6">
           <div
@@ -115,46 +80,6 @@ const HeroSection: React.FC = () => {
                   }}
                 />
               </div>
-
-              {/* Profile Details */}
-              <div className="flex-grow-1 text-center text-md-start">
-                {isEditing ? (
-                  <>
-                    <Form.Group className="mb-3">
-                      <Form.Control
-                        type="text"
-                        name="name"
-                        value={newProfileData.name}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Control
-                        type="text"
-                        name="surname"
-                        value={newProfileData.surname}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Control
-                        type="text"
-                        name="title"
-                        value={newProfileData.title}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                    <Form.Group className="mb-3">
-                      <Form.Control
-                        type="text"
-                        name="area"
-                        value={newProfileData.area}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                  </>
-                ) : (
-                  <>
                     <h1 className="h4 mb-1 fw-bold">
                       {profile.name} {profile.surname}
                       <Button
@@ -169,21 +94,13 @@ const HeroSection: React.FC = () => {
                       <strong>{profile.title}</strong>
                     </p>
                     <p className="mb-2 text-muted">{profile.area}</p>
-                  </>
-                )}
                 <div className="d-flex justify-content-center justify-content-md-start gap-2">
                   <Button variant="primary">Connect</Button>
                   <Button variant="outline-secondary">Message</Button>
                   <Button variant="outline-secondary">More</Button>
-                  {isEditing ? (
-                    <Button variant="success" onClick={handleSave}>
-                      Save
-                    </Button>
-                  ) : (
-                    <Button variant="warning" onClick={handleEdit}>
+                    <Button variant="warning">
                       Edit
                     </Button>
-                  )}
                 </div>
               </div>
             </div>
@@ -191,25 +108,12 @@ const HeroSection: React.FC = () => {
             {/* Additional Info */}
             <Card className="mt-4 border-0">
               <Card.Body>
-                {isEditing ? (
-                  <Form.Group>
-                    <Form.Control
-                      as="textarea"
-                      rows={3}
-                      name="bio"
-                      value={newProfileData.bio}
-                      onChange={handleChange}
-                    />
-                  </Form.Group>
-                ) : (
                   <p className="mb-0 text-muted">{profile.bio}</p>
-                )}
               </Card.Body>
             </Card>
           </div>
         </div>
       </div>
-    </div>
   );
 };
 
