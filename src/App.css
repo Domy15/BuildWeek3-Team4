@@ -17,7 +17,6 @@
   height: 2.5em;
 }
 
-
 .show-more-btn:hover, .show-more-btn:active, .show-more-btn:focus{
   background-color: rgba(185, 185, 185, 0.219);
   border: none;
@@ -27,3 +26,5 @@
   border-bottom: 1px solid rgb(220, 220, 220);
   width: 100%;
 }
+
+.navbar-collapse{flex-grow: 0;}
