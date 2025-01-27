@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import SingleComp from "./singleComp";
 
 type Competency = {
@@ -131,8 +131,8 @@ const Competency = () => {
         },
     ];
 
-
-    const [comp, setComp] = useState<null | Competency[]>(null);
+    const [show, setShow] = useState(2)
+    const [comp, setComp] = useState<[] | Competency[]>([]);
 
     const getRandom = (array: Competency[]) => {
         const min = 3;
@@ -142,23 +142,33 @@ const Competency = () => {
         setComp(result)
     }
 
+    const showMore = () => {
+        setShow(comp.length)
+    }
+
     useEffect(() => {
         getRandom(competencyArray)
     }, [])
 
     return (
         <>
-            <Container fluid>
+            <Container className="border rounded-2 p-0 pt-3">
                 {comp &&
-                    <Row>
-                        <Col className="ps-2">
-                            <h4>Competenze</h4>
-                            {comp.map((item, i) => {
-                                console.log(item)
-                                return <SingleComp key={i} item={item} />
-                            })}
-                        </Col>
-                    </Row>}
+                    <>
+                        <Row className="px-3">
+                            <Col className="">
+                                <h4>Competenze</h4>
+                                {comp.slice(0, show).map((item, i) => {
+                                    console.log(item)
+                                    return <SingleComp key={i} item={item} />
+                                })}
+                            </Col>
+                        </Row>
+                        {show < comp.length &&
+                            <Button variant="light" size="sm" className=" show-more-btn" onClick={showMore}> Mostra tutte le competenze</Button>
+                        }
+                    </>
+                }
             </Container>
         </>
     )
