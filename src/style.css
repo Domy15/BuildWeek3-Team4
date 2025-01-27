@@ -1,3 +1,26 @@
+/* profile info */
+
+.bckImageProfile {
+  height: 300px;
+}
+
+.profilePicture {
+  width: 150px;
+  height: 150px;
+  border: 5px solid white;
+  top: 250px;
+  left: 50px;
+  /* transform: translate(40px, -50px); */
+}
+
+.titleProfile {
+  margin-top: 2.8em;
+}
+
+.verifyBtn {
+  border-style: dashed;
+}
+
 /* aside */
 
 .asideSection {

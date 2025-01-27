@@ -80,7 +80,7 @@ const AsideSection = () => {
                       <p className="descriptionAside text-muted mb-2">
                         {u.title}
                       </p>
-                      <button className="followBtn followBtn btn border-1 border-black btn-sm d-flex align-items-center">
+                      <button className="followBtn btn border-1 border-black btn-sm d-flex align-items-center">
                         <i className="bi bi-person-fill-add followIcon me-1"></i>
                         Segui
                       </button>

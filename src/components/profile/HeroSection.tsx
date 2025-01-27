@@ -1,17 +1,17 @@
-import { Button, Card } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { user } from "../../types/user";
+import { PencilFill } from "react-bootstrap-icons";
 
 const HeroSection = () => {
-
   interface State {
     user: user | undefined;
   }
 
-  const profile = useSelector((state: State) => (state.user));
+  const profile = useSelector((state: State) => state.user);
   const [error, setError] = useState<string | null>(null);
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const fetchProfile = async () => {
     try {
@@ -29,9 +29,9 @@ const HeroSection = () => {
       if (response.ok) {
         const data = await response.json();
         dispatch({
-          type: 'PROFILE',
+          type: "PROFILE",
           payload: data,
-        })
+        });
         setError(null);
       } else {
         setError(`Error ${response.status}: ${response.statusText}`);
@@ -54,66 +54,57 @@ const HeroSection = () => {
   }
 
   return (
-    <div className="container mt-5" style={{ position: "relative" }}>
+    <div className="mt-5">
+      <div>
+        <div>
+          <div className="bg-light position-relative">
+            {/* Profile Image */}
 
-      <div className="row justify-content-start">
-        <div className="col-lg-8 col-md-6">
-          <div
-            className="bg-white rounded-lg p-4"
-            style={{
-              position: "relative",
-              zIndex: 1,
-              paddingTop: "80px",
-            }}
-          >
-            <div className="d-flex flex-column flex-md-row align-items-center">
-              {/* Profile Image */}
-              <div className="flex-shrink-0 mb-3 mb-md-0 me-md-4">
-                <img
-                  src={profile.image || "https://via.placeholder.com/150"}
-                  alt="Profile"
-                  className="rounded-circle border border-secondary"
-                  style={{
-                    width: "150px",
-                    height: "150px",
-                    zIndex: 2,
-                  }}
-                />
-              </div>
-                    <h1 className="h4 mb-1 fw-bold">
-                      {profile.name} {profile.surname}
-                      <Button
-                        variant="link"
-                        className="btn-light border-2 rounded-4 m-2 border-primary text-decoration-none"
-                        style={{ borderStyle: "dashed" }}
-                      >
-                        Aggiungi badge di verifica
-                      </Button>
-                    </h1>
-                    <p className="mb-1 text-black ">
-                      <strong>{profile.title}</strong>
-                    </p>
-                    <p className="mb-2 text-muted">{profile.area}</p>
-                <div className="d-flex justify-content-center justify-content-md-start gap-2">
-                  <Button variant="primary">Connect</Button>
-                  <Button variant="outline-secondary">Message</Button>
-                  <Button variant="outline-secondary">More</Button>
-                    <Button variant="warning">
-                      Edit
-                    </Button>
-                </div>
+            <img
+              src="https://800anniunipd.it/wp-content/uploads/2022/05/n_boscopini.jpg"
+              alt="background"
+              className="bckImageProfile img-fluid w-100 "
+            />
+
+            <img
+              src={profile.image || "https://via.placeholder.com/150"}
+              alt="Profile"
+              className="rounded-circle profilePicture position-absolute"
+            />
+
+            <div className="d-flex align-items-end">
+              <h1 className="fw-bold titleProfile mx-3">
+                {profile.name} {profile.surname}
+              </h1>
+              <Button
+                variant="link"
+                className="verifyBtn btn-light border-2 rounded-4 m-2 border-primary text-decoration-none"
+              >
+                Aggiungi badge di verifica
+              </Button>
+            </div>
+            <div className="p-3">
+              <p className="h5 fw-light mb-1 text-black fw-bold">
+                {profile.title}
+              </p>
+              <p className="mb-2 text-muted">{profile.area}</p>
+              <div className="d-flex gap-2">
+                <Button variant="primary">Connect</Button>
+                <Button variant="outline-secondary">Message</Button>
+                <Button variant="outline-secondary">More</Button>
+                <Button variant="transparent" className="ms-auto">
+                  <PencilFill size={25} />
+                </Button>
               </div>
             </div>
-
-            {/* Additional Info */}
-            <Card className="mt-4 border-0">
-              <Card.Body>
-                  <p className="mb-0 text-muted">{profile.bio}</p>
-              </Card.Body>
-            </Card>
+          </div>
+          <div className="p-3 border rounded-2 my-3">
+            <h4 className="">Informazioni</h4>
+            <p>{profile.bio}</p>
           </div>
         </div>
       </div>
+    </div>
   );
 };
 
