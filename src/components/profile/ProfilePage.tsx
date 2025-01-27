@@ -3,6 +3,7 @@ import Experience from "./Experience";
 import Competency from "./Competency";
 import AsideSection from "./AsideSection";
 import HeroSection from "./HeroSection";
+import Languages from "./Languages";
 
 const ProfilePage = () => {
   return (
@@ -12,6 +13,7 @@ const ProfilePage = () => {
           <HeroSection />
           <Experience />
           <Competency />
+          <Languages/>
         </Col>
         <Col md={4} className="d-none d-md-block">
           <AsideSection />

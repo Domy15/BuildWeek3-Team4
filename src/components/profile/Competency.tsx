@@ -156,7 +156,7 @@ const Competency = () => {
 
   return (
     <>
-      <Container className="border rounded-2 p-0 pt-3">
+      <Container className="border rounded-2 p-0 pt-3 mb-3">
         {comp && (
           <>
             <Row className="px-3">
