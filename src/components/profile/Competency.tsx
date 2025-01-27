@@ -163,7 +163,6 @@ const Competency = () => {
               <Col className="">
                 <h4>Competenze</h4>
                 {comp.slice(0, show).map((item, i) => {
-                  console.log(item);
                   return <SingleComp key={i} item={item} />;
                 })}
               </Col>
