@@ -1,5 +1,5 @@
-*{
-  margin:0;
+* {
+  margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
@@ -12,3 +12,29 @@
 .pExp {
   font-size: 0.9em;
 }
+
+.show-more-btn {
+  width: 100%;
+  padding: 0 !important;
+  height: 100%;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  background-color: transparent;
+  font-weight: 700;
+  text-align: center;
+  border: none !important;
+  height: 2.5em;
+}
+
+.show-more-btn:hover, .show-more-btn:active, .show-more-btn:focus{
+  background-color: rgba(185, 185, 185, 0.219);
+  border: none;
+}
+
+.custom-border-bottom {
+  border-bottom: 1px solid rgb(220, 220, 220);
+  width: 100%;
+}
+
+.navbar-collapse{flex-grow: 0;}
+
